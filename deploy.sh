@@ -9,6 +9,7 @@ variables=$(env \
 
 envsubst "$variables" < "config.template" > "config.yaml"
 
+ls -la
 cat config.yaml
 
 lambda deploy --use-requirements
