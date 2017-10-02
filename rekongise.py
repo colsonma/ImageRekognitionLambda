@@ -26,7 +26,7 @@ class ValidateImage(object):
         self.rekognition = boto3.client('rekognition')
 
         self.s3 = boto3.client('s3')
-        self.get_image()
+        #self.get_image()
 
     def validate(self):
         flagged = False
