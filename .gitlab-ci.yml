@@ -1,0 +1,12 @@
+image: docker:git
+
+stages:
+  - deploy
+
+before_script:
+  - export BUILD_VERSION="${CI_COMMIT_SHA:0:8}"
+
+Deploy:
+ stage: deploy
+ script:
+    - ./deploy.sh
