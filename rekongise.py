@@ -21,11 +21,10 @@ class ValidateImage(object):
     def __init__(self, bucket, key):
         self.bucket = bucket
         self.key = key
+
         self.min_confidence = os.environ['MIN_CONFIDENCE']
         self.rekognition = boto3.client('rekognition')
 
-        self.name = ""
-        self.version = ""
         self.s3 = boto3.client('s3')
         self.get_image()
 
@@ -37,8 +36,7 @@ class ValidateImage(object):
                 Image={
                     "S3Object": {
                         "Bucket": self.bucket,
-                        "Name": self.name,
-                        "Version": self.version
+                        "Name": self.key
                     }
                 },
                 MinConfidence=self.min_confidence
@@ -56,8 +54,6 @@ class ValidateImage(object):
 
     def get_image(self):
         image = self.s3.get_object(Bucket=self.bucket, Key=self.key)
-        self.name = "something"
-        self.version = "3"
 
 
 class UpdateDateBase(object):
