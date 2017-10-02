@@ -1,0 +1,35 @@
+# https://github.com/nficano/python-lambda
+region: ap-southeast-2
+
+function_name: ImageValidator
+handler: rekongise.fire
+description: Validate images for explisit content via s3 put
+runtime: python3.6
+# role: lambda_basic_execution
+
+# S3 upload requires appropriate role with s3:PutObject permission
+# (ex. basic_s3_upload), a destination bucket, and the key prefix
+# bucket_name: 'example-bucket'
+# s3_key_prefix: 'path/to/file/'
+
+# if access key and secret are left blank, boto will use the credentials
+# defined in the [default] section of ~/.aws/credentials.
+aws_access_key_id: $AWS_ACCESS_KEY_ID
+aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+
+# dist_directory: dist
+# timeout: 15
+# memory_size: 512
+#
+
+# Experimental Environment variables
+environment_variables:
+    db_user: $DB_USER
+    db_host: $DB_HOST
+    db_database: $DB_DATEBASE
+    db_password: $DB_PASSWORD
+    build_version: $BUILD_VERSION
+
+# Build options
+build:
+  source_directories: lib # a comma delimited list of directories in your project root that contains source to package.
