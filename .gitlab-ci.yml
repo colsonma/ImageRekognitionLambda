@@ -9,4 +9,6 @@ before_script:
 Deploy:
  stage: deploy
  script:
+    - apk update && apk upgrade && apk add python3 python3-pip
+    - pip3 install -r requirements.txt
     - ./deploy.sh
