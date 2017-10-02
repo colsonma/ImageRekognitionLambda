@@ -3,7 +3,7 @@ region: ap-southeast-2
 
 function_name: ImageValidator
 handler: rekongise.fire
-description: Validate images for explisit content via s3 put
+description: Validate images for explicit content via s3 put
 runtime: python3.6
 # role: lambda_basic_execution
 
