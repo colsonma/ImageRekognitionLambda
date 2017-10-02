@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # get all of the variables out of the env
 # and split them on "=" to get the first half
@@ -8,5 +8,7 @@ variables=$(env \
 	| tr '\n' ' ')
 
 envsubst "$variables" < "config.template" > "config.yaml"
+
+cat config.yaml
 
 lambda deploy --use-requirements
