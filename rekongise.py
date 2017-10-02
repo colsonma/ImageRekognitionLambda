@@ -25,9 +25,6 @@ class ValidateImage(object):
         self.min_confidence = str(os.environ['min_confidence'])
         self.rekognition = boto3.client('rekognition')
 
-        self.s3 = boto3.client('s3')
-        #self.get_image()
-
     def validate(self):
         flagged = False
 
@@ -51,9 +48,6 @@ class ValidateImage(object):
             flagged = True
 
         return flagged
-
-    def get_image(self):
-        image = self.s3.get_object(Bucket=self.bucket, Key=self.key)
 
 
 class UpdateDateBase(object):
