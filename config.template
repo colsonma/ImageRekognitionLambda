@@ -24,7 +24,7 @@ environment_variables:
     db_database: $DB_DATABASE
     db_password: $DB_PASSWORD
     build_version: $BUILD_VERSION
-    min_confidence: $MIN_CONFIDENCE
+    min_confidence: "$MIN_CONFIDENCE"
 
 # Build options
 build:
