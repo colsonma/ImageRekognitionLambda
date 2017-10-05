@@ -14,7 +14,7 @@ def fire(event, context):
     validate_image = ValidateImage(bucket, key)
     flagged = validate_image.validate()
 
-    UpdateDateBase(key, flagged)
+    UpdateDateBase(key, bucket, flagged)
 
 
 class ValidateImage(object):
@@ -22,11 +22,8 @@ class ValidateImage(object):
         self.bucket = bucket
         self.key = key
 
-        self.min_confidence = os.environ['MIN_CONFIDENCE']
+        self.min_confidence = int(os.environ['min_confidence'])
         self.rekognition = boto3.client('rekognition')
-
-        self.s3 = boto3.client('s3')
-        self.get_image()
 
     def validate(self):
         flagged = False
@@ -42,6 +39,8 @@ class ValidateImage(object):
                 MinConfidence=self.min_confidence
             )
 
+            print("rekognition detect_moderation_labels: " + json.dumps(response, indent=2))
+
             labels = response['ModerationLabels']
             if labels:
                 flagged = True
@@ -52,13 +51,11 @@ class ValidateImage(object):
 
         return flagged
 
-    def get_image(self):
-        image = self.s3.get_object(Bucket=self.bucket, Key=self.key)
-
 
 class UpdateDateBase(object):
-    def __init__(self, name, flagged):
+    def __init__(self, name, bucket, flagged):
         self.name = name
+        self.bucket = bucket
         self.flagged = flagged
         self.connection = self.connect()
         # https://github.com/PyMySQL/PyMySQL
@@ -68,8 +65,8 @@ class UpdateDateBase(object):
     def update(self):
         try:
             with self.connection.cursor() as cursor:
-                sql = "INSERT INTO `Image_Validation` (`name`, `flagged`) VALUES (%s, %s)"
-                cursor.execute(sql, (self.name, self.flagged)) # Create a new record
+                sql = "INSERT INTO `Image_Validation` (`name`, `bucket`, `flagged`) VALUES (%s, %s, %s)"
+                cursor.execute(sql, (self.name, self.bucket, self.flagged)) # Create a new record
 
             # connection is not autocommit by default. So you must commit to save your changes.
             self.connection.commit()
