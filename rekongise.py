@@ -22,7 +22,7 @@ class ValidateImage(object):
         self.bucket = bucket
         self.key = key
 
-        self.min_confidence = 50 #int(os.environ['min_confidence'])
+        self.min_confidence = os.environ['min_confidence']
         self.rekognition = boto3.client('rekognition')
 
     def validate(self):
@@ -38,6 +38,8 @@ class ValidateImage(object):
                 },
                 MinConfidence=self.min_confidence
             )
+
+            print("rekognition detect_moderation_labels: " + json.dumps(response, indent=2))
 
             labels = response['ModerationLabels']
             if labels:
