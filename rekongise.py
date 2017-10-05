@@ -22,7 +22,7 @@ class ValidateImage(object):
         self.bucket = bucket
         self.key = key
 
-        self.min_confidence = os.environ['min_confidence']
+        self.min_confidence = int(os.environ['min_confidence'])
         self.rekognition = boto3.client('rekognition')
 
     def validate(self):
